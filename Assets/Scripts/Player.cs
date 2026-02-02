@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
   [SerializeField] private float _moveSpeed = 10f;
   [SerializeField] private float _rotationSpeed = 10f;
 
+  private bool _isWalking = false;
+
   private void Update()
   {
     Vector2 inputVector = new(0, 0);
@@ -18,8 +20,20 @@ public class Player : MonoBehaviour
     inputVector = inputVector.normalized;
 
     Vector3 moveDirection = new(inputVector.x, 0, inputVector.y);
-    transform.position += _moveSpeed * Time.deltaTime * moveDirection;
+    Walk(moveDirection);
+    Rotate(moveDirection);
 
+    Debug.Log(inputVector);
+  }
+
+  private void Walk(Vector3 moveDirection)
+  {
+    transform.position += _moveSpeed * Time.deltaTime * moveDirection;
+    _isWalking = moveDirection != Vector3.zero;
+  }
+
+  private void Rotate(Vector3 moveDirection)
+  {
     if (moveDirection != Vector3.zero)
     {
       Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
@@ -29,7 +43,7 @@ public class Player : MonoBehaviour
         _rotationSpeed * Time.deltaTime
       );
     }
-
-    Debug.Log(inputVector);
   }
+
+  public bool IsWalking() =>_isWalking;
 }
