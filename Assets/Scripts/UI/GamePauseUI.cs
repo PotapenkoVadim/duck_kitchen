@@ -6,11 +6,13 @@ public class GamePauseUI: MonoBehaviour
 {
   [SerializeField] private Button _resumeButton;
   [SerializeField] private Button _mainMenuButton;
+  [SerializeField] private Button _optionsButton;
 
   private void Awake()
   {
     _resumeButton.onClick.AddListener(HandleResumeButtonClick);
     _mainMenuButton.onClick.AddListener(HandleMainMenuButtonClick);
+    _optionsButton.onClick.AddListener(HandleOptionsButtonClick);
   }
 
   private void Start()
@@ -28,6 +30,12 @@ public class GamePauseUI: MonoBehaviour
 
     _resumeButton.onClick.RemoveListener(HandleResumeButtonClick);
     _mainMenuButton.onClick.RemoveListener(HandleMainMenuButtonClick);
+     _optionsButton.onClick.RemoveListener(HandleOptionsButtonClick);
+  }
+
+  private void HandleOptionsButtonClick()
+  {
+    OptionsUI.Instance.Show();
   }
 
   private void HandleResumeButtonClick()
