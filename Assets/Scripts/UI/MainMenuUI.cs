@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenuUI: MonoBehaviour
@@ -11,6 +10,14 @@ public class MainMenuUI: MonoBehaviour
   {
     _playButton.onClick.AddListener(HandlePlayButtonClick);
     _quitButton.onClick.AddListener(HandleQuitButtonClick);
+
+    Time.timeScale = 1f;
+  }
+
+  private void OnDestroy()
+  {
+    _playButton.onClick.RemoveListener(HandlePlayButtonClick);
+    _quitButton.onClick.RemoveListener(HandleQuitButtonClick);
   }
 
   private void HandlePlayButtonClick()

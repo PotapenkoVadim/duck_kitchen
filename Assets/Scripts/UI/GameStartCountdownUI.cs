@@ -13,6 +13,11 @@ public class GameStartCountdownUI: MonoBehaviour
     Hide();
   }
 
+  private void OnDestroy()
+  {
+    KitchenGameManager.Instance.OnStateChanged -= HandleGameStateChange;
+  }
+
   private void HandleGameStateChange(object sender, EventArgs e)
   {
     if (KitchenGameManager.Instance.IsCountdownToStartActive())

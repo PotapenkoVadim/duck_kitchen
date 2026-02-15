@@ -4,24 +4,32 @@ using UnityEngine.InputSystem;
 
 public class GameInput : MonoBehaviour
 {
+  public static GameInput Instance {get; private set;}
+
   public event EventHandler OnInteractAction;
   public event EventHandler OnInteractAlternateAction;
+  public event EventHandler OnPauseAction;
 
   private InputSystem_Actions _inputActions;
 
-  private void Awake() =>_inputActions = new();
+  private void Awake() {
+    Instance = this;
+    _inputActions = new();
+  }
 
   private void OnEnable()
   {
     _inputActions.Player.Enable();
     _inputActions.Player.Interact.performed += OnInteractPerformed;
     _inputActions.Player.InteractAlternate.performed += OnInteractAlternatePerformed;
+    _inputActions.Player.Pause.performed += OnPausePerformed;
   }
 
   private void OnDisable()
   {
     _inputActions.Player.Interact.performed -= OnInteractPerformed;
      _inputActions.Player.InteractAlternate.performed -= OnInteractAlternatePerformed;
+     _inputActions.Player.Pause.performed -= OnPausePerformed;
      _inputActions.Player.Disable();
   }
 
@@ -40,5 +48,10 @@ public class GameInput : MonoBehaviour
   private void OnInteractAlternatePerformed(InputAction.CallbackContext obj)
   {
     OnInteractAlternateAction?.Invoke(this, EventArgs.Empty);
+  }
+
+  private void OnPausePerformed(InputAction.CallbackContext obj)
+  {
+    OnPauseAction?.Invoke(this, EventArgs.Empty);
   }
 }
