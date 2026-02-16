@@ -16,7 +16,7 @@ public class PlatesCounter: BaseCounter
   private void Update()
   {
     _spawnPlateTimer += Time.deltaTime;
-    if (_spawnPlateTimer > _spawnPlateTimerMax)
+    if (KitchenGameManager.Instance.IsGamePlaying() && _spawnPlateTimer > _spawnPlateTimerMax)
     {
       _spawnPlateTimer = 0f;
 

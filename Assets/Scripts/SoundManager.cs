@@ -104,4 +104,9 @@ public class SoundManager: MonoBehaviour
   {
     return _volume;
   }
+
+  public void PlayCountdownSound()
+  {
+    PlaySound(_audioClipRefsSO.warning, Vector3.zero);
+  }
 }

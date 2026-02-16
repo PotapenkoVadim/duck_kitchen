@@ -2,9 +2,20 @@ using System;
 using TMPro;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class GameStartCountdownUI: MonoBehaviour
 {
+  private const string NUMBER_POPUP = "NumberPopup";
+
   [SerializeField] private TextMeshProUGUI _counterdownText;
+
+  private Animator _animator;
+  private int _prevNumber;
+
+  private void Awake()
+  {
+    _animator = GetComponent<Animator>();
+  }
 
   private void Start()
   {
@@ -31,8 +42,13 @@ public class GameStartCountdownUI: MonoBehaviour
 
   private void Update()
   {
-    string text = Mathf.Ceil(KitchenGameManager.Instance.GetCountdownToStartTimer()).ToString();
-    if (text != _counterdownText.text) _counterdownText.text = text;
+    int num = Mathf.CeilToInt(KitchenGameManager.Instance.GetCountdownToStartTimer());
+    if (num != _prevNumber) {
+      _prevNumber = num;
+      _counterdownText.text = num.ToString();
+      _animator.SetTrigger(NUMBER_POPUP);
+      SoundManager.Instance.PlayCountdownSound();
+    }
   }
 
   private void Show()
